@@ -1,6 +1,14 @@
 class LinkedList {
-  constructor(head = null) {
+  constructor(head = null, tail = null, size=0 ) {
     this.head = head;
+    this.tail = tail;
+    this.size = size;
+
+    this.iterate((node, count) => {
+      this.size = count;
+      this.tail = node;
+    })
+    
   }
 
   iterate(callback) {
@@ -46,7 +54,10 @@ class LinkedList {
   // add the node to the start of the list, no nodes should be removed
   addFirst(node) {
     node.next = this.head;
-    this.head = node;
+    if (!node.next){
+      this.tail = node;
+    }
+    this.head = node;    
   }
 
   // add node to end of list, no nodes should be removed
@@ -54,12 +65,14 @@ class LinkedList {
   addLast(node) {
     if (this.head === null) {
       this.head = node;
+      this.tail = node;
       return;
     }
 
     this.iterate(currNode => {
       if (currNode.next === null) {
         currNode.next = node;
+        this.tail = node;
         return true;
       }
     });
@@ -72,6 +85,10 @@ class LinkedList {
 
     if (this.head !== null) {
       this.head = this.head.next;
+    }
+
+    if (this.head === null){
+      this.tail = null;
     }
 
     return oldHead;
@@ -90,6 +107,7 @@ class LinkedList {
       if (node.next.next === null) {
         oldTail = node.next;
         node.next = null;
+        this.tail = node;
         return true;
       }
     });
