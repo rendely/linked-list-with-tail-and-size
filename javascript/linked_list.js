@@ -5,7 +5,7 @@ class LinkedList {
     this.size = size;
 
     this.iterate((node, count) => {
-      this.size = count;
+      this.size = count +1;
       this.tail = node;
     })
     
@@ -121,6 +121,10 @@ class LinkedList {
       this.removeFirst();
       this.addFirst(node);
       return node;
+    }
+
+    if (idx === this.size -1){
+      this.tail = node;
     }
 
     this.iterate((currNode, count) => {
