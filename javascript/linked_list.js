@@ -58,11 +58,14 @@ class LinkedList {
       this.tail = node;
     }
     this.head = node;    
+    this.size++
   }
 
   // add node to end of list, no nodes should be removed
   // you may wish to use the iterate method
   addLast(node) {
+    this.size++
+
     if (this.head === null) {
       this.head = node;
       this.tail = node;
@@ -76,6 +79,8 @@ class LinkedList {
         return true;
       }
     });
+
+    
   }
 
   // remove the first Node in the list and update head
@@ -85,6 +90,7 @@ class LinkedList {
 
     if (this.head !== null) {
       this.head = this.head.next;
+      this.size--;
     }
 
     if (this.head === null){
@@ -112,6 +118,7 @@ class LinkedList {
       }
     });
 
+    this.size--;
     return oldTail;
   }
 
@@ -142,9 +149,15 @@ class LinkedList {
   // insert the node at the given index
   // no existing nodes should be removed or replaced
   insert(idx, node) {
+    
     if (idx === 0) {
       this.addFirst(node);
       return;
+    }
+
+    this.size++;
+    if (idx >= this.size -1){
+      this.tail = node;
     }
 
     this.iterate((currNode, count) => {
@@ -164,12 +177,16 @@ class LinkedList {
       return this.removeFirst();
     }
 
+    this.size--;
     let oldNode = null;
 
     this.iterate((node, count) => {
       if (count === idx - 1) {
         oldNode = node.next;
         node.next = node.next.next;
+        if (!node.next){
+          this.tail = node;
+        }
 
         return true;
       }
@@ -180,6 +197,7 @@ class LinkedList {
 
   clear() {
     this.head = null;
+    this.size = 0;
   }
 }
 
